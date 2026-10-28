@@ -1,0 +1,255 @@
+{
+  "$defs": {
+    "S7Cost": {
+      "additionalProperties": false,
+      "description": "token 成本（§13.1）：total + 按环节拆分。",
+      "properties": {
+        "total": {
+          "default": 0,
+          "title": "Total",
+          "type": "integer"
+        },
+        "by_step": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Step",
+          "type": "object"
+        }
+      },
+      "title": "S7Cost",
+      "type": "object"
+    },
+    "S7RetrievalRound": {
+      "additionalProperties": false,
+      "properties": {
+        "round": {
+          "minimum": 1,
+          "title": "Round",
+          "type": "integer"
+        },
+        "chunks": {
+          "items": {
+            "$ref": "#/$defs/S7RoundChunk"
+          },
+          "title": "Chunks",
+          "type": "array"
+        },
+        "source_count": {
+          "default": 0,
+          "title": "Source Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "round"
+      ],
+      "title": "S7RetrievalRound",
+      "type": "object"
+    },
+    "S7RoundChunk": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "doc_id": {
+          "title": "Doc Id",
+          "type": "string"
+        },
+        "score": {
+          "title": "Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "doc_id",
+        "score"
+      ],
+      "title": "S7RoundChunk",
+      "type": "object"
+    },
+    "S7SelfCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "sufficient": {
+          "title": "Sufficient",
+          "type": "boolean"
+        },
+        "rounds": {
+          "default": 1,
+          "title": "Rounds",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "sufficient"
+      ],
+      "title": "S7SelfCheck",
+      "type": "object"
+    },
+    "S7Verification": {
+      "additionalProperties": false,
+      "properties": {
+        "verdict": {
+          "anyOf": [
+            {
+              "enum": [
+                "pass",
+                "downgrade",
+                "fail"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verdict"
+        },
+        "single_source_items": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Single Source Items",
+          "type": "array"
+        }
+      },
+      "title": "S7Verification",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "S7：会话记忆·调用路径快照（§11），post_step 钩子写入，7 天排障窗口。",
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "query_id": {
+      "title": "Query Id",
+      "type": "string"
+    },
+    "session_id": {
+      "title": "Session Id",
+      "type": "string"
+    },
+    "status": {
+      "default": "answering",
+      "enum": [
+        "answering",
+        "verified",
+        "degraded"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "question": {
+      "title": "Question",
+      "type": "string"
+    },
+    "intent": {
+      "anyOf": [
+        {
+          "enum": [
+            "fact_qa",
+            "analysis",
+            "comparison",
+            "realtime",
+            "investment_advice",
+            "chitchat"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Intent"
+    },
+    "entities": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Entities",
+      "type": "array"
+    },
+    "queries": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Queries",
+      "type": "array"
+    },
+    "keywords": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Keywords",
+      "type": "array"
+    },
+    "retrieval": {
+      "items": {
+        "$ref": "#/$defs/S7RetrievalRound"
+      },
+      "title": "Retrieval",
+      "type": "array"
+    },
+    "self_check": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/S7SelfCheck"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "verification": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/S7Verification"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "answer": {
+      "default": "",
+      "title": "Answer",
+      "type": "string"
+    },
+    "citations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Citations",
+      "type": "array"
+    },
+    "timings_ms": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Timings Ms",
+      "type": "object"
+    },
+    "cost_tokens": {
+      "$ref": "#/$defs/S7Cost"
+    }
+  },
+  "required": [
+    "query_id",
+    "session_id",
+    "question"
+  ],
+  "title": "S7Snapshot",
+  "type": "object"
+}

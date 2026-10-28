@@ -1,0 +1,63 @@
+{
+  "description": "S2：意图识别+查询扩展输出，qwen-plus 一次调用（§4/§9.2）。",
+  "properties": {
+    "schema_version": {
+      "description": "必填，固定 1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "intent": {
+      "enum": [
+        "fact_qa",
+        "analysis",
+        "comparison",
+        "realtime",
+        "investment_advice",
+        "chitchat"
+      ],
+      "title": "Intent",
+      "type": "string"
+    },
+    "confidence": {
+      "description": "意图置信度 0~1",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "entities": {
+      "description": "关键实体：公司/政策/指标/时间",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 6,
+      "title": "Entities",
+      "type": "array"
+    },
+    "queries": {
+      "description": "检索变体 3~5 个；realtime/investment_advice/chitchat 为空",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 5,
+      "title": "Queries",
+      "type": "array"
+    },
+    "keywords": {
+      "description": "金融实体词（BM25 检索用）",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8,
+      "title": "Keywords",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "intent",
+    "confidence"
+  ],
+  "title": "S2IntentExpand",
+  "type": "object"
+}

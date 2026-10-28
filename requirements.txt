@@ -1,0 +1,21 @@
+# 金融问答 RAG 系统依赖（大纲 §14 技术栈）
+pyarrow
+pandas
+pydantic
+tenacity
+loguru
+requests
+matplotlib
+tqdm
+jieba        # P1 检索用（中文分词/BM25）
+# P5 Web 服务（§14）
+fastapi
+uvicorn[standard]
+redis
+# 用户系统（§14.5，2026-10-19）：MySQL 历史 + Pillow 验证码
+pymysql
+pillow
+# Langfuse 可视化追踪（§13.5，2026-10-20）：可选依赖，未启用时 no-op
+langfuse
+# 独立向量库（P6，2026-10-21）：Qdrant 客户端（1.19.x 兼容 py3.10）
+qdrant-client==1.19.1

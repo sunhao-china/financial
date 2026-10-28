@@ -1,0 +1,37 @@
+{
+  "description": "S3：信息自检输出（§6.1/§10.3），Agent 循环慢路径判据。",
+  "properties": {
+    "schema_version": {
+      "description": "必填，固定 1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sufficient": {
+      "title": "Sufficient",
+      "type": "boolean"
+    },
+    "missing": {
+      "description": "不足时逐条列出缺失信息点",
+      "items": {
+        "type": "string"
+      },
+      "title": "Missing",
+      "type": "array"
+    },
+    "followup_queries": {
+      "description": "补充查询 ≤2 个，不得与已尝试查询重复",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 2,
+      "title": "Followup Queries",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "sufficient"
+  ],
+  "title": "S3SelfCheck",
+  "type": "object"
+}

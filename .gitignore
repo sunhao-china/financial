@@ -1,0 +1,22 @@
+# 密钥与凭据（绝不入库）
+.env
+.token_secret
+tools/ssh_secret.py
+
+# 语料与数据产物（体积大/版权数据，不入库）
+data/
+rank_*.parquet
+p3_eval.json
+
+# 构建产物
+frontend/node_modules/
+frontend/dist/
+frontend_dist.tar.gz
+
+# 本地状态与日志
+.claude/
+tasks/
+__pycache__/
+*.pyc
+*.log
+.venv/

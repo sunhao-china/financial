@@ -1,0 +1,98 @@
+{
+  "$defs": {
+    "Message": {
+      "description": "通用对话消息（S6 history / S9 请求）。",
+      "properties": {
+        "role": {
+          "enum": [
+            "user",
+            "assistant",
+            "system"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "content": {
+          "title": "Content",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "title": "Message",
+      "type": "object"
+    },
+    "S6Reference": {
+      "additionalProperties": false,
+      "description": "S6 引用块：ref_no 与生成提示词中的【资料n】严格对应。",
+      "properties": {
+        "ref_no": {
+          "minimum": 1,
+          "title": "Ref No",
+          "type": "integer"
+        },
+        "chunk_id": {
+          "title": "Chunk Id",
+          "type": "string"
+        },
+        "doc_id": {
+          "title": "Doc Id",
+          "type": "string"
+        },
+        "quality_score": {
+          "title": "Quality Score",
+          "type": "number"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ref_no",
+        "chunk_id",
+        "doc_id",
+        "quality_score",
+        "text"
+      ],
+      "title": "S6Reference",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "S6：喂给生成 LLM 的上下文（§9.4），组装 prompt 前校验。",
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "question": {
+      "title": "Question",
+      "type": "string"
+    },
+    "references": {
+      "items": {
+        "$ref": "#/$defs/S6Reference"
+      },
+      "minItems": 1,
+      "title": "References",
+      "type": "array"
+    },
+    "history": {
+      "items": {
+        "$ref": "#/$defs/Message"
+      },
+      "title": "History",
+      "type": "array"
+    }
+  },
+  "required": [
+    "question",
+    "references"
+  ],
+  "title": "S6Context",
+  "type": "object"
+}

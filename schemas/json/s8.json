@@ -1,0 +1,93 @@
+{
+  "$defs": {
+    "S7Cost": {
+      "additionalProperties": false,
+      "description": "token 成本（§13.1）：total + 按环节拆分。",
+      "properties": {
+        "total": {
+          "default": 0,
+          "title": "Total",
+          "type": "integer"
+        },
+        "by_step": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Step",
+          "type": "object"
+        }
+      },
+      "title": "S7Cost",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "S8：日志/链路事件（§13.5），落盘前校验；query_id 贯穿全链路。",
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "ts": {
+      "description": "ISO 8601 时间戳",
+      "title": "Ts",
+      "type": "string"
+    },
+    "query_id": {
+      "title": "Query Id",
+      "type": "string"
+    },
+    "step": {
+      "description": "intent/retrieval/self_check/generate/verify/error …",
+      "title": "Step",
+      "type": "string"
+    },
+    "level": {
+      "default": "info",
+      "enum": [
+        "debug",
+        "info",
+        "warning",
+        "error"
+      ],
+      "title": "Level",
+      "type": "string"
+    },
+    "payload": {
+      "additionalProperties": true,
+      "title": "Payload",
+      "type": "object"
+    },
+    "latency_ms": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Latency Ms"
+    },
+    "cost_tokens": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/S7Cost"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "ts",
+    "query_id",
+    "step"
+  ],
+  "title": "S8Event",
+  "type": "object"
+}

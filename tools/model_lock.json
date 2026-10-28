@@ -1,0 +1,54 @@
+{
+  "generated": "2026-10-16",
+  "note": "embedding 模型一致性锁：离线建库与在线查询必须使用以下 sha256 完全一致的文件。AutoDL 路径 /root/autodl-tmp/models/（ModelScope 下载，2026-10-16）。",
+  "pipeline": "sentence-transformers 6.1.0 + torch 2.13 fp16 推理，bge-m3 truncate_dim=512 + normalize（MRL 截断）",
+  "models": {
+    "bge-m3": {
+      "source": "https://modelscope.cn/models/BAAI/bge-m3",
+      "local_dir": "/root/autodl-tmp/models/bge-m3",
+      "files": {
+        "pytorch_model.bin": "b5e0ce3470abf5ef3831aa1bd5553b486803e83251590ab7ff35a117cf6aad38",
+        "config.json": "26159e7ad065073448460117eb24b7a4572f6f4e78eadff65dc0a11c052449fa",
+        "tokenizer.json": "21106b6d7dab2952c1d496fb21d5dc9db75c28ed361a05f5020bbba27810dd08",
+        "tokenizer_config.json": "a62b2b6784f990259fddef5f16388693a8043be4f69179e6a5257eeb3f9abac4",
+        "sentencepiece.bpe.model": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865",
+        "config_sentence_transformers.json": "1eef72430e7194a1e59680e635aed81ffa083f05668dbc5bb1c56c04c0999c38",
+        "sentence_bert_config.json": "eb9b44b13c0f52a3b3685c3b1cbdea1ba8b04bea123b98f61610048940776eb1",
+        "modules.json": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+        "1_Pooling/config.json": "e54c164a07274f2eb45bb724f54a79d1efcc90c41573887cd9a29aeee0597352"
+      }
+    },
+    "qwen3-emb-0.6b": {
+      "source": "https://modelscope.cn/models/Qwen/Qwen3-Embedding-0.6B",
+      "local_dir": "/root/autodl-tmp/models/qwen3-emb-0.6b",
+      "files": {
+        "model.safetensors": "0437e45c94563b09e13cb7a64478fc406947a93cb34a7e05870fc8dcd48e23fd",
+        "config.json": "b5bf1f51fc45be473a54718cef92448d90a1be001bf9b9a44b8c7f10a19feaa9",
+        "tokenizer.json": "def76fb086971c7867b829c23a26261e38d9d74e02139253b38aeb9df8b4b50a",
+        "config_sentence_transformers.json": "10667c72ddb772627bf1780cb7f86af8e2ae0032b8c243c731172064105c6961",
+        "1_Pooling/config.json": "37bf193fa101f19101bfad9c31d3eb0f786e247b7b1e5cb7f007d730eed1ddbd"
+      }
+    }
+  },
+  "benchmark": {
+    "note": "AutoDL RTX 4090 48G，2026-10-16 实测",
+    "bge-m3_fp16_batch256_mrl512": "726 chunks/s（500 字 chunk，纯推理基准）",
+    "bge-m3_full_pipeline": "430 chunks/s（读 parquet + 编码 + 写盘全流程，19,147 chunks 45s）",
+    "bge-m3_fp32": "228 chunks/s（不采用）",
+    "vllm_0.31_pooling": "423 chunks/s（XLM-R flash-attn 支持差，不采用）"
+  },
+  "consistency_check": {
+    "note": "离线 GPU fp16 vs 在线 CPU fp32（同一模型文件，200 样本，2026-10-16）",
+    "cosine_min": 0.99986,
+    "cosine_median": 1.00018,
+    "top10_identical": "197/200",
+    "conclusion": "离线 GPU 建库 + 在线 CPU 查询成立，检索结果无实质差异"
+  },
+  "recall_eval": {
+    "note": "50 query × 19,147 chunk 小索引，正例=同文档相邻 chunk（data/evals/queries.json，2026-10-16）",
+    "bge-m3-512": {"recall@5": 0.6364, "recall@10": 0.7142},
+    "qwen3-emb-0.6b-512": {"recall@5": 0.6494, "recall@10": 0.7278},
+    "qianwen-text-embedding-v3-512": {"recall@5": 0.6734, "recall@10": 0.7615},
+    "decision": "暂定 bge-m3：recall@10 比百炼低 4.7p、比 qwen3 低 1.4p，但全量吞吐 430/s（qwen3 仅 149/s，全量多 3.5 小时）；百炼虽最高但违背自部署一致性决策，仅作基准。qwen3 模型文件已锁定，随时可切换。混合检索 BM25 + rerank 将进一步稀释 embedding 差距"
+  }
+}

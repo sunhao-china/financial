@@ -1,0 +1,91 @@
+{
+  "$defs": {
+    "S5Hit": {
+      "additionalProperties": false,
+      "description": "S5：检索结果条目（§9.3），检索服务所有路径的统一出口。",
+      "properties": {
+        "schema_version": {
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "chunk_id": {
+          "title": "Chunk Id",
+          "type": "string"
+        },
+        "doc_id": {
+          "title": "Doc Id",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "score": {
+          "description": "融合后归一化分数",
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "rank_source": {
+          "enum": [
+            "vector",
+            "bm25",
+            "fusion"
+          ],
+          "title": "Rank Source",
+          "type": "string"
+        },
+        "quality_score": {
+          "title": "Quality Score",
+          "type": "number"
+        },
+        "chunk_index": {
+          "title": "Chunk Index",
+          "type": "integer"
+        },
+        "chunk_count": {
+          "title": "Chunk Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "chunk_id",
+        "doc_id",
+        "text",
+        "score",
+        "rank_source",
+        "quality_score",
+        "chunk_index",
+        "chunk_count"
+      ],
+      "title": "S5Hit",
+      "type": "object"
+    }
+  },
+  "description": "S9：GET /sources/{query} 响应（§14 检索调试接口）。",
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "query": {
+      "title": "Query",
+      "type": "string"
+    },
+    "results": {
+      "items": {
+        "$ref": "#/$defs/S5Hit"
+      },
+      "title": "Results",
+      "type": "array"
+    }
+  },
+  "required": [
+    "query"
+  ],
+  "title": "S9SourcesResponse",
+  "type": "object"
+}

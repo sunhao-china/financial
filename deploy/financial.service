@@ -1,0 +1,20 @@
+[Unit]
+Description=Financial RAG Q&A Service (P5)
+After=network.target docker.service
+
+[Service]
+Type=simple
+WorkingDirectory=/data/financial
+# 密钥由 config.py 直接读 /data/financial/.env，无需 EnvironmentFile
+ExecStart=/data/financial/.venv/bin/uvicorn server.main:app --host 0.0.0.0 --port 8001 --workers 1 --timeout-keep-alive 75
+Restart=always
+RestartSec=5
+# 模型加载 ~90s（bge-m3 + HNSW + BM25 + 2.86M chunks 元数据）
+TimeoutStartSec=300
+# 进程内索引 ≈16-20G，留余量（同机 ecs_embed_service ~2G）
+MemoryMax=22G
+StandardOutput=append:/data/financial/data/logs/uvicorn.log
+StandardError=append:/data/financial/data/logs/uvicorn.log
+
+[Install]
+WantedBy=multi-user.target

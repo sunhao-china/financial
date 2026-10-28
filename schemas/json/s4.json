@@ -1,0 +1,47 @@
+{
+  "description": "S4：答案校验输出（§6.3/§10.4），pre_reply 钩子强制关口。",
+  "properties": {
+    "schema_version": {
+      "description": "必填，固定 1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "verdict": {
+      "description": "pass=正常回复；downgrade=附可靠性说明回复；fail=重生成一次，仍失败走降级话术",
+      "enum": [
+        "pass",
+        "downgrade",
+        "fail"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    },
+    "unverified_claims": {
+      "description": "无法在资料原文定位的数字/日期结论",
+      "items": {
+        "type": "string"
+      },
+      "title": "Unverified Claims",
+      "type": "array"
+    },
+    "single_source_items": {
+      "description": "仅单一 doc_id 支撑的结论",
+      "items": {
+        "type": "string"
+      },
+      "title": "Single Source Items",
+      "type": "array"
+    },
+    "notes": {
+      "default": "",
+      "title": "Notes",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "verdict"
+  ],
+  "title": "S4Verify",
+  "type": "object"
+}

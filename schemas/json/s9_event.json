@@ -1,0 +1,43 @@
+{
+  "description": "S9：SSE 事件信封（§14），data 按 event 类型双向校验。",
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "query_id": {
+      "title": "Query Id",
+      "type": "string"
+    },
+    "event": {
+      "enum": [
+        "meta",
+        "reasoning",
+        "delta",
+        "sources",
+        "done",
+        "error"
+      ],
+      "title": "Event",
+      "type": "string"
+    },
+    "data": {
+      "additionalProperties": true,
+      "title": "Data",
+      "type": "object"
+    },
+    "ts": {
+      "default": "",
+      "title": "Ts",
+      "type": "string"
+    }
+  },
+  "required": [
+    "query_id",
+    "event",
+    "data"
+  ],
+  "title": "S9Event",
+  "type": "object"
+}
