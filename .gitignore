@@ -3,8 +3,12 @@
 .token_secret
 tools/ssh_secret.py
 
-# 语料与数据产物（体积大/版权数据，不入库）
-data/
+# 语料与数据产物（体积大/版权数据，不入库；评测集与报告例外）
+data/*
+!data/evals/
+data/evals/*
+!data/evals/qa_set.json
+!data/reports/
 rank_*.parquet
 p3_eval.json
 

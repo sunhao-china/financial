@@ -1,0 +1,120 @@
+{
+ "n_total": 79,
+ "n_doc": 64,
+ "n_refuse": 15,
+ "refuse_accuracy": "15/15 (100.0%)",
+ "answer_rate": "59/64 (92.2%)",
+ "verification": {
+  "pass": 59,
+  "fail": 5
+ },
+ "regen": {
+  "total_fail_first": 10,
+  "improved_after_regen": 5
+ },
+ "cite_legality": "59/59 (100.0%)",
+ "evidence_coverage": "38/56 (67.9%)",
+ "judge_consistent": "42/59 (71.2%)",
+ "judge_errors": 0,
+ "agent_slow_path_rate": "19/64 (29.7%)",
+ "cost": {
+  "total_tokens": 1162801,
+  "avg_tokens": 14719.0,
+  "total_seconds": 4006.0,
+  "avg_seconds": 50.7,
+  "avg_generate_ms": 46270,
+  "avg_verify_ms": 5800
+ },
+ "refuse_details": [
+  {
+   "q066": [
+    true,
+    "话术拒答"
+   ]
+  },
+  {
+   "q067": [
+    true,
+    "话术拒答"
+   ]
+  },
+  {
+   "q068": [
+    true,
+    "话术拒答"
+   ]
+  },
+  {
+   "q069": [
+    true,
+    "话术拒答"
+   ]
+  },
+  {
+   "q070": [
+    true,
+    "话术拒答"
+   ]
+  },
+  {
+   "q071": [
+    true,
+    "话术拒答"
+   ]
+  },
+  {
+   "q072": [
+    true,
+    "话术拒答"
+   ]
+  },
+  {
+   "q073": [
+    true,
+    "话术拒答"
+   ]
+  },
+  {
+   "q074": [
+    true,
+    "话术拒答"
+   ]
+  },
+  {
+   "q075": [
+    true,
+    "话术拒答"
+   ]
+  },
+  {
+   "q076": [
+    true,
+    "诚实声明（不构成）"
+   ]
+  },
+  {
+   "q077": [
+    true,
+    "诚实声明（现有资料中未提及）"
+   ]
+  },
+  {
+   "q078": [
+    true,
+    "话术拒答"
+   ]
+  },
+  {
+   "q079": [
+    true,
+    "诚实声明（现有资料中未提及）"
+   ]
+  },
+  {
+   "q080": [
+    true,
+    "话术拒答"
+   ]
+  }
+ ]
+}
