@@ -17,6 +17,9 @@ frontend/node_modules/
 frontend/dist/
 frontend_dist.tar.gz
 
+# 面试材料（本地保留，不上传）
+金融RAG项目面试总结.md
+
 # 本地状态与日志
 .claude/
 tasks/
